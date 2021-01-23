@@ -1,0 +1,12 @@
+
+<launch>
+
+  <rosparam command="load" file="$(find xf_mic_asr_offline)/config/recognition_params.yaml" />
+
+  <node pkg="xf_mic_asr_offline" type="call_recognition" name="call_recognition" />
+  <node pkg="xf_mic_asr_offline" type="command_recognition" name="command_recognition" output="screen"/>
+  <node pkg="xf_mic_asr_offline" type="motion_control" name="motion_control" />
+  <node pkg="xf_mic_asr_offline" type="refresh_mic" name="refresh_mic" />
+
+
+</launch>

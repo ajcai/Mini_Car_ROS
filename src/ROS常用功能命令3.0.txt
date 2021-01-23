@@ -1,0 +1,102 @@
+1.巡线(雷达避障)
+roslaunch simple_follower line_follower.launch 
+
+2.雷达跟随。
+roslaunch simple_follower laser_follower.launch 
+
+3.视觉跟踪。
+roslaunch simple_follower visual_follower.launch 
+
+4.3D建图、3D导航。
+roslaunch turn_on_wheeltec_robot 3d_mapping.launch 
+roslaunch turn_on_wheeltec_robot 3d_navigation.launch 
+
+5.2D建图、2D导航。
+roslaunch turn_on_wheeltec_robot mapping.launch
+roslaunch turn_on_wheeltec_robot navigation.launch 
+一键保存地图(WHEELTEC.pgm、WHEELTEC.yaml)
+roslaunch turn_on_wheeltec_robot map_saver.launch 
+
+6.KCF跟随
+roslaunch kcf_track kcf_tracker.launch
+
+7.AR标签识别
+roslaunch turn_on_wheeltec_robot ar_label.launch
+创建一个二维码，边长为5，内容为0
+rosrun ar_track_alvar createMarker -s 5 0
+   
+8.纯视觉建图导航
+roslaunch turn_on_wheeltec_robot pure3d_mapping.launch
+roslaunch turn_on_wheeltec_robot pure3d_navigation.launch
+
+9.语音控制
+//开启底层、导航、雷达扫描节点
+roslaunch xf_mic_asr_offline base.launch
+//开启麦克风阵列初始化节点
+roslaunch xf_mic_asr_offline mic_init.launch
+//开启语音控制相关节点
+roslaunch xf_mic_asr_offline voice_control.launch
+
+10.WEB浏览器显示摄像头
+主机：roslaunch usb_cam usb_cam-test.launch
+          rosrun web_video_server web_video_server
+主机网页查看：http://localhost:8080/ (发出热点的为主机)
+客户机网页查看：http://192.168.0.100:8080 (连接热点的为客户机)
+【注】建议使用谷歌浏览器，经测试360极速浏览器、IE浏览器无法打开图像
+
+11.物体识别(不支持树莓派4B 2GB)
+物体识别：roslaunch ros_detection ros_tensorflow_classify.launch
+查看摄像头实时画面：rqt_image_view(选择"/camera/rgb/image_raw/compressed"话题)
+
+------------------------------------------
+其它常用命令
+
+递归修改文件夹文件修改时间(终端所在文件夹)：
+find ./* -exec touch {} \;
+
+在工作空间下运行，安装ROS功能包全部依赖：
+rosdep install --from-paths src --ignore-src -r -y
+
+指定功能包编译：
+catkin_make -DCATKIN_WHITELIST_PACKAGES="功能包名"
+解除指定功能包编译：
+catkin_make -DCATKIN_WHITELIST_PACKAGES=""
+
+使用豆瓣源进行pip安装(网速会快很多)：
+pip install -i https://pypi.doubanio.com/simple/ python包名
+
+ssh登录：
+ssh -Y wheeltec@192.168.0.100
+
+nfs挂载:
+sudo mount -t nfs 192.168.0.100:/home/wheeltec/wheeltec_robot /mnt
+nfs解除挂载:
+sudo umount -t nfs 192.168.0.100:/home/wheeltec/wheeltec_robot /mnt
+
+启动初始化节点：
+roslaunch turn_on_wheeltec_robot turn_on_wheeltec_robot.launch
+
+键盘控制：(wheeltec)
+roslaunch wheeltec_robot_rc keyboard_teleop.launch
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+
+打开地图路径：
+cd /home/wheeltec/wheeltec_robot/src/turn_on_wheeltec_robot/map
+手动保存地图：
+rosrun map_server map_saver -f 20200714
+
+打开RGB摄像头
+roslaunch usb_cam usb_cam-test.launch
+rqt_image_view
+
+打开深度摄像头
+roslaunch astra_camera astra.launch 
+rqt_image_view
+
+查看节点与话题关系
+rqt_graph
+
+生成TF树pdf
+rosrun tf view_frames
+查看TF树
+rosrun rqt_tf_tree rqt_tf_tree

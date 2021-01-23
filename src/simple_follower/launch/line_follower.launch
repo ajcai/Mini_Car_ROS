@@ -1,0 +1,13 @@
+<launch>
+  <!-- 开启RGB摄像头  -->
+  <include file="$(find usb_cam)/launch/usb_cam-test.launch" />
+  <!-- 开启巡线节点  -->
+  <node name='line_tracker' pkg="simple_follower" type="line_follow.py">
+  </node>
+  <node pkg="simple_follower" type="avoidance" name="avoidance" />
+  <!-- 开启机器人底层相关节点  -->
+  <include file="$(find turn_on_wheeltec_robot)/launch/turn_on_wheeltec_robot.launch" />
+  <!-- turn on lidar开启思岚雷达  -->
+  <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+  <include file='$(find simple_follower)/launch/nodes/laserTracker.launch' />
+</launch>

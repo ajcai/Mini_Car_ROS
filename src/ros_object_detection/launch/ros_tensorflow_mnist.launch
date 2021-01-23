@@ -1,0 +1,8 @@
+<launch>
+  <!-- 开启RGB摄像头  -->
+  <include file="$(find usb_cam)/launch/usb_cam-test.launch" />
+  
+  <node pkg="ros_detection" name="ros_tensorflow_minst" type="ros_tensorflow_mnist.py" output="screen"> 
+  </node>
+
+</launch>

@@ -1,0 +1,115 @@
+TebLocalPlannerROS:
+
+ odom_topic: /odom
+ map_frame: odom_combined
+
+ #Trajectory
+ teb_autosize: True #优化期间允许改变轨迹的时域长度
+ dt_ref: 0.45 #局部路径规划的解析度# minimum 0.01
+ dt_hysteresis: 0.1 #允许改变的时域解析度的浮动范围， 一般为 dt_ref 的 10% 左右 minimum0.002
+ global_plan_overwrite_orientation: False #覆盖全局路径中局部路径点的朝向
+ max_global_plan_lookahead_dist: 3.0 #考虑优化的全局计划子集的最大长度
+ feasibility_check_no_poses: 5 #检测位姿可到达的时间间隔 minimum 0
+
+ # Robot
+ max_vel_x: 0.5 #最大x前向速度
+ max_vel_y: 0.0 #最大y前向速度
+ max_vel_x_backwards: 0.3 #Maximum translational velocity of the robot for driving backwards
+ max_vel_theta: 0.6  #最大转向角速度
+ #max_vel_theta: 1.5
+ acc_lim_x: 0.5  #最大x向加速度
+ #acc_lim_y: 0  #最大y向加速度
+ acc_lim_theta: 0.41  #最大角加速度
+
+ # ********************** Carlike robot parameters ********************
+ min_turning_radius: 0.426    #mini_akm    # Min turning radius of the carlike robot (compute value using a model or adjust with rqt_reconfigure manually)
+ #min_turning_radius: 0.773  #senior_akm
+ #min_turning_radius: 0.871 #top_akm_bs
+ #min_turning_radius: 1.318 #top_akm_dl
+ wheelbase: 0.323           # Wheelbase of our robot
+ cmd_angle_instead_rotvel: False # stage simulator takes the angle instead of the rotvel as input (twist message)
+ footprint_model: # types: "point", "circular", "two_circles", "line", "polygon" 默认“point”类型
+  type: "polygon" 
+  #line_start: [0.00, 0.0] # for type "line" senior_akm
+  #line_end: [0.7, 0.0] # for type "line" top_akm_bs
+  #radius: 0.3 # for type "circular"
+  #front_offset: 0.2       #for type "two_circles"
+  #front_rasius: 0.2       #for type "two_circles"
+  #rear_offset : 0.2       #for type "two_circles"
+  #rear_rasius : 0.2       #for type "two_circles"
+  vertices: [[-0.031, -0.093], [-0.031, 0.093],[0.209,0.093],[0.209, -0.093]] #机器人形状 for mini_akm
+  #vertices : [[-0.09, -0.185], [-0.09, 0.185],[0.4,0.185],[0.4, -0.185]] #机器人形状 for senior_akm
+  #vertices: [[-0.13, -0.27], [-0.13, 0.27],[0.7,0.27],[0.7, -0.27]]  # 机器人形状 for top_akm_bs backAxleCenter
+  #vertices: [[-0.43, -0.27], [-0.43, 0.27],[0.4,0.27],[0.4, -0.27]]  # 机器人形状 for top_akm_bs geometricCenter
+  #vertices: [[-0.15, -0.38], [-0.15, 0.38],[0.67,0.38],[0.67, -0.38]]  # 机器人形状 for top_akm_dl backAxleCenter
+  #vertices: [[-0.41, -0.38], [-0.41, 0.38],[0.41,0.38],[0.41, -0.38]]  # 机器人形状 for top_akm_dl geometricCenter 
+
+ xy_goal_tolerance: 0.2   #目标 xy 偏移容忍度  minimum 0.001 maximum 0.2
+ yaw_goal_tolerance: 0.1 #目标 角度 偏移容忍度 minimum 0.001 maximum 0.1
+ free_goal_vel: False  #允许机器人以最大速度驶向目的地
+ complete_global_plan: True
+ 
+ # Obstacles
+ min_obstacle_dist: 0.3 #和障碍物最小距离
+ include_costmap_obstacles: True  #是否将动态障碍物预测为速度模型，
+ costmap_obstacles_behind_robot_dist: 1.5  #限制机器人后方规划时考虑的局部成本地图障碍物
+ obstacle_poses_affected: 15   #障碍物姿态受影响0~30
+ costmap_converter_plugin: ""
+ costmap_converter_spin_thread: True
+ costmap_converter_rate: 5
+ include_dynamic_obstacles: True 
+ dynamic_obstacle_inflation_dist: 0.6
+
+ # Optimization  
+ no_inner_iterations: 5
+ no_outer_iterations: 4
+ optimization_activate: True
+ optimization_verbose: False
+ penalty_epsilon: 0.1
+ obstacle_cost_exponent: 4
+ weight_max_vel_x: 2
+ weight_max_vel_theta: 1
+ weight_acc_lim_x: 1
+ weight_acc_lim_theta: 1
+ weight_kinematics_nh: 1000
+ weight_kinematics_forward_drive: 1
+ weight_kinematics_turning_radius: 1
+ weight_optimaltime: 1 # must be > 0
+ weight_shortest_path: 0
+ weight_obstacle: 100
+ weight_inflation: 0.2
+ weight_dynamic_obstacle: 10 # not in use yet
+ weight_dynamic_obstacle_inflation: 0.2
+ weight_viapoint: 1
+ weight_adapt_factor: 2
+
+ # Homotopy Class Planner
+ enable_homotopy_class_planning: False
+ enable_multithreading: True
+ max_number_classes: 4
+ selection_cost_hysteresis: 1.0
+ selection_prefer_initial_plan: 0.95
+ selection_obst_cost_scale: 1.0
+ selection_alternative_time_cost: False
+
+ roadmap_graph_no_samples: 15
+ roadmap_graph_area_width: 5
+ roadmap_graph_area_length_scale: 1.0
+ h_signature_prescaler: 0.5
+ h_signature_threshold: 0.1
+ obstacle_heading_threshold: 0.45
+ switching_blocking_period: 0.0
+ viapoints_all_candidates: True
+ delete_detours_backwards: True
+ max_ratio_detours_duration_best_duration: 3.0
+ visualize_hc_graph: False
+ visualize_with_time_as_z_axis_scale: False
+
+ # Recovery
+ shrink_horizon_backup: True
+ shrink_horizon_min_duration: 10
+ oscillation_recovery: False
+ oscillation_v_eps: 0.1
+ oscillation_omega_eps: 0.1
+ oscillation_recovery_min_duration: 10
+ oscillation_filter_duration: 10

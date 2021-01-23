@@ -1,0 +1,8 @@
+<launch>
+  <!-- 开启机器人2d建图 -->
+  <include file="$(find turn_on_wheeltec_robot)/launch/mapping.launch" />
+  <!-- 开启摄像头 -->
+  <include file="$(find astra_camera)/launch/astrapro.launch" />
+  <!-- 开启3d 建图 -->
+  <include file="$(find turn_on_wheeltec_robot)/launch/include/rtabmap_mapping.launch" />
+</launch>

@@ -1,0 +1,22 @@
+<launch>
+  <include file="$(find turn_on_wheeltec_robot)/launch/turn_on_wheeltec_robot.launch" />
+  <include file="$(find astra_camera)/launch/astrapro.launch" />
+  <node name='imageResize' pkg="kcf_track" type="imageResize.py">
+  </node>
+  <node name='kcf_tracker'     pkg="kcf_track" type="kcf_node">
+    <param name="rgb_topic"    value="/camera/rgb/image_raw"  type="string" />
+    <param name="depth_topic"  value="/camera/depth/image"    type="string" />
+  </node>
+  <node name='kcf_tracker_pid' pkg="kcf_track" type="kcf_follow.py">
+    <param name='line_maxSpeed'    value='0.15'  type='double' />
+    <param name='angular_maxSpeed' value='0.2'  type='double' />
+    
+    <param name='dis_Kp'       value='0.1'     type='double' />
+    <param name='dis_Kd'       value='0.5'     type='double' />
+    <param name='dis_setPoint' value='1.2'     type='double' />
+
+    <param name='ang_Kp'       value='0.002'   type='double' />
+    <param name='ang_Kd'       value='0.001'   type='double' />
+    <param name='ang_setPoint' value='320'     type='int' />
+  </node>
+</launch>

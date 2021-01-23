@@ -1,0 +1,95 @@
+<launch>
+<!-- Arguments参数 -->
+<arg name="car_mode"  default="mini_akm" doc="opt: mini_akm, senior_akm, top_akm_bs, top_akm_dl"/>
+
+<!-- car_mode and params  mini_akm-->
+<group if="$(eval car_mode == 'mini_akm')">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <!-- 话题重命名后输入给 "move_base" ,该节点需要订阅传感器话题、全局地图话题、目标位置话题、还有tf树、odom_combined，proj_map为读取地图数据包后生成的地图同时会继续更新 --> 
+    <!-- 用于以摄像头点云数据为观测源，已弃用 --> 
+    <!-- <remap from="openni_points" to="/camera/depth_registered/points"/> --> 
+    <!-- 全局地图来源 --> 
+    <remap from="map" to="/rtabmap/grid_map"/>
+    <!-- rviz的MarkerArray与SimpleGoal --> 
+    <remap from="move_base/goal" to="/move_base/goal"/>
+    <remap from="move_base/goal" to="/move_base/simple_goal"/>
+    <!-- movebase导航所需参数 --> 
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_mini_akm/costmap_common_params_pure3d.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_mini_akm/costmap_common_params_pure3d.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/move_base_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/base_global_planner_param.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/teb_local_planner_params.yaml" command="load" />
+  </node>
+</group>
+  
+<!-- car_mode and params  senior_akm-->
+<group if="$(eval car_mode == 'senior_akm')">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <!-- 话题重命名后输入给 "move_base" ,该节点需要订阅传感器话题、全局地图话题、目标位置话题、还有tf树、odom_combined，proj_map为读取地图数据包后生成的地图同时会继续更新 --> 
+    <!-- 用于以摄像头点云数据为观测源，已弃用 --> 
+    <!-- <remap from="openni_points" to="/camera/depth_registered/points"/> --> 
+    <!-- 全局地图来源 --> 
+    <remap from="map" to="/rtabmap/grid_map"/>
+    <!-- rviz的MarkerArray与SimpleGoal --> 
+    <remap from="move_base/goal" to="/move_base/goal"/>
+    <remap from="move_base/goal" to="/move_base/simple_goal"/>
+    <!-- movebase导航所需参数 --> 
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_senior_akm/costmap_common_params_pure3d.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_senior_akm/costmap_common_params_pure3d.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/move_base_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/base_global_planner_param.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/teb_local_planner_params.yaml" command="load" />
+  </node>
+</group>
+
+<!-- car_mode and params  top_akm_bs-->
+<group if="$(eval car_mode == 'top_akm_bs')">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <!-- 话题重命名后输入给 "move_base" ,该节点需要订阅传感器话题、全局地图话题、目标位置话题、还有tf树、odom_combined，proj_map为读取地图数据包后生成的地图同时会继续更新 --> 
+    <!-- 用于以摄像头点云数据为观测源，已弃用 --> 
+    <!-- <remap from="openni_points" to="/camera/depth_registered/points"/> --> 
+    <!-- 全局地图来源 --> 
+    <remap from="map" to="/rtabmap/grid_map"/>
+    <!-- rviz的MarkerArray与SimpleGoal --> 
+    <remap from="move_base/goal" to="/move_base/goal"/>
+    <remap from="move_base/goal" to="/move_base/simple_goal"/>
+    <!-- movebase导航所需参数 --> 
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_top_akm_bs/costmap_common_params_pure3d.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_top_akm_bs/costmap_common_params_pure3d.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/move_base_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/base_global_planner_param.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/teb_local_planner_params.yaml" command="load" />
+  </node>
+</group>
+
+<!-- car_mode and params  top_akm_dl-->
+<group if="$(eval car_mode == 'top_akm_dl')">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <!-- 话题重命名后输入给 "move_base" ,该节点需要订阅传感器话题、全局地图话题、目标位置话题、还有tf树、odom_combined，proj_map为读取地图数据包后生成的地图同时会继续更新 --> 
+    <!-- 用于以摄像头点云数据为观测源，已弃用 --> 
+    <!-- <remap from="openni_points" to="/camera/depth_registered/points"/> --> 
+    <!-- 全局地图来源 --> 
+    <remap from="map" to="/rtabmap/grid_map"/>
+    <!-- rviz的MarkerArray与SimpleGoal --> 
+    <remap from="move_base/goal" to="/move_base/goal"/>
+    <remap from="move_base/goal" to="/move_base/simple_goal"/>
+    <!-- movebase导航所需参数 --> 
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_top_akm_dl/costmap_common_params_pure3d.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_top_akm_dl/costmap_common_params_pure3d.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/move_base_params.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/base_global_planner_param.yaml" command="load" />
+    <rosparam file="$(find turn_on_wheeltec_robot)/param_common/teb_local_planner_params.yaml" command="load" />
+  </node>
+</group>
+
+</launch>
+
+
