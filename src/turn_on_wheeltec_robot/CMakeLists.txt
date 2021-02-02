@@ -35,3 +35,7 @@ include_directories(include/${PROJECT_NAME})
 
 add_executable(wheeltec_robot_node src/wheeltec_robot.cpp src/Quaternion_Solution.cpp)
 target_link_libraries(wheeltec_robot_node ${catkin_LIBRARIES})
+
+catkin_install_python(PROGRAMS scripts/record_bag.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
